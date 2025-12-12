@@ -5,7 +5,7 @@ Agent0 is the **supervisory automation layer** inside Unified Cognitive OS.
 
 It is not a conversational agent.
 It does not generate content.
-It does not call tools autonomously.
+It does not perform autonomous tool-calling or opaque action execution.
 
 Agent0 governs **how tasks are created, evaluated, and evolved**
 across the entire cognitive pipeline.
