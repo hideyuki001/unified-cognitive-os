@@ -1,1 +1,224 @@
+openapi: 3.0.3
+info:
+  title: Unified Cognitive OS API
+  version: 1.0.0
+  description: |
+    Supervisory cognitive operating system API.
+    Governs how task pipelines (e.g. Translation OS),
+    evaluation layers (e.g. META v3),
+    and generation systems are orchestrated, evaluated,
+    and adaptively progressed.
+
+    This API does NOT generate content.
+    It defines deterministic control, evaluation governance,
+    and task progression contracts.
+
+servers:
+  - url: https://api.unified-cognitive-os.dev
+    description: Example server (specification only)
+
+paths:
+
+  /v1/unified/execute:
+    post:
+      summary: Execute unified cognitive pipeline
+      description: |
+        Executes a full supervisory pipeline:
+        task initialization → execution orchestration →
+        evaluation absorption → adaptive progression.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UnifiedExecuteRequest'
+      responses:
+        '200':
+          description: Unified execution completed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnifiedExecuteResponse'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /v1/unified/evaluate:
+    post:
+      summary: Absorb evaluation results
+      description: |
+        Absorbs evaluation verdicts (e.g. META v3 output)
+        and converts them into supervisory feedback signals.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EvaluationAbsorbRequest'
+      responses:
+        '200':
+          description: Evaluation absorbed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EvaluationAbsorbResponse'
+
+  /v1/unified/progress:
+    post:
+      summary: Update task difficulty and scope
+      description: |
+        Updates difficulty, scope, and next-task conditions
+        based on accumulated feedback signals.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProgressUpdateRequest'
+      responses:
+        '200':
+          description: Progress updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProgressUpdateResponse'
+
+  /v1/unified/validate:
+    post:
+      summary: Cross-layer consistency validation
+      description: |
+        Validates consistency across execution,
+        evaluation, and task design layers.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConsistencyCheckRequest'
+      responses:
+        '200':
+          description: Validation completed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsistencyCheckResponse'
+
+components:
+  schemas:
+
+    UnifiedExecuteRequest:
+      type: object
+      required: [context]
+      properties:
+        context:
+          type: object
+          description: Abstract task context (domain-agnostic)
+        initial_difficulty:
+          type: number
+          example: 0.7
+        pipeline:
+          type: string
+          example: "translation_os_v1"
+
+    UnifiedExecuteResponse:
+      type: object
+      properties:
+        task_id:
+          type: string
+          example: "UCO-2025-001"
+        execution_status:
+          type: string
+          example: "completed"
+        evaluation_summary:
+          type: object
+          example:
+            meta_decision: "YES"
+            na_rate: 0.1
+        next_difficulty:
+          type: number
+          example: 0.75
+
+    EvaluationAbsorbRequest:
+      type: object
+      required: [verdicts]
+      properties:
+        verdicts:
+          type: object
+          example:
+            PromptFidelity: "YES"
+            StructuralAccuracy: "YES"
+            CreativeFit: "NO"
+
+    EvaluationAbsorbResponse:
+      type: object
+      properties:
+        feedback_signal:
+          type: object
+          example:
+            success_rate: 0.8
+            risk_level: "low"
+            recommended_action: "increase_difficulty"
+
+    ProgressUpdateRequest:
+      type: object
+      required: [feedback_signal]
+      properties:
+        feedback_signal:
+          type: object
+        current_difficulty:
+          type: number
+          example: 0.7
+
+    ProgressUpdateResponse:
+      type: object
+      properties:
+        updated_difficulty:
+          type: number
+          example: 0.75
+        adjustment_reason:
+          type: string
+          example: "consistent success with low risk"
+
+    ConsistencyCheckRequest:
+      type: object
+      required: [execution_trace, evaluation_trace]
+      properties:
+        execution_trace:
+          type: object
+        evaluation_trace:
+          type: object
+
+    ConsistencyCheckResponse:
+      type: object
+      properties:
+        is_consistent:
+          type: boolean
+          example: true
+        violations:
+          type: array
+          items:
+            type: string
+          example: []
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            type:
+              type: string
+              example: "InvalidInput"
+            message:
+              type: string
+              example: "context field is missing."
 
