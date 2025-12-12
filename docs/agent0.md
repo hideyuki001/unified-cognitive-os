@@ -159,7 +159,7 @@ Agent0 prioritizes **control over autonomy**.
 ## Agent0 in the OS Architecture
 
 Agent0 sits **above generation and evaluation layers**.
-
+```
 [ Human Intent ]
 ↓
 [ Agent0 — Task & Curriculum Control ]
@@ -169,7 +169,7 @@ Agent0 sits **above generation and evaluation layers**.
 [ META v3 — Evaluation ]
 ↓
 [ Agent0 — Feedback Absorption & Progression ]
-
+```
 
 This makes **Unified Cognitive OS** a **supervisory cognitive system**,  
 not a prompt framework or an agent swarm.
