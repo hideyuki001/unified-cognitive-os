@@ -85,9 +85,9 @@ Supervision and progression are handled by Agent0.
 [ META v3 — Evidence-Gated Evaluation ]
 ↓
 [ Agent0 — Feedback Absorption & Progression ]
-
-This creates a **closed-loop supervisory system**.
 ```
+This creates a **closed-loop supervisory system**.
+
 ---
 
 ## Scope and Difficulty Control
