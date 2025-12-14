@@ -1,1 +1,88 @@
 
+{
+  "flow_id": "EVAL-FLOW-2025-001",
+  "description": "Absorb evaluation verdicts, convert to supervisory signals, update difficulty, then validate cross-layer consistency.",
+  "steps": [
+    {
+      "endpoint": "/v1/unified/evaluate",
+      "method": "POST",
+      "request": {
+        "verdicts": {
+          "PromptFidelity": "YES",
+          "StructuralAccuracy": "YES",
+          "CreativeFit": "NO",
+          "SafetyCompliance": "YES"
+        }
+      },
+      "response": {
+        "feedback_signal": {
+          "success_rate": 0.8,
+          "risk_level": "low",
+          "recommended_action": "increase_difficulty",
+          "notes": [
+            "CreativeFit=NO is treated as non-blocking for non-creative pipelines; track as quality debt."
+          ]
+        }
+      }
+    },
+    {
+      "endpoint": "/v1/unified/progress",
+      "method": "POST",
+      "request": {
+        "feedback_signal": {
+          "success_rate": 0.8,
+          "risk_level": "low",
+          "recommended_action": "increase_difficulty"
+        },
+        "current_difficulty": 0.7
+      },
+      "response": {
+        "updated_difficulty": 0.75,
+        "adjustment_reason": "consistent success with low risk"
+      }
+    },
+    {
+      "endpoint": "/v1/unified/validate",
+      "method": "POST",
+      "request": {
+        "execution_trace": {
+          "task_id": "UCO-2025-001",
+          "pipeline": "translation_os_v1",
+          "difficulty_before": 0.7,
+          "difficulty_after": 0.75,
+          "scope": {
+            "fixed": true,
+            "notes": "Scope unchanged; only difficulty updated."
+          },
+          "orchestration": [
+            {
+              "phase": "execute",
+              "status": "completed",
+              "evidence_refs": ["artifact://log/TRACE-0001"]
+            }
+          ]
+        },
+        "evaluation_trace": {
+          "meta_decision": "YES",
+          "verdicts": {
+            "PromptFidelity": "YES",
+            "StructuralAccuracy": "YES",
+            "CreativeFit": "NO",
+            "SafetyCompliance": "YES"
+          },
+          "evidence_chain": [
+            {
+              "verdict": "StructuralAccuracy",
+              "evidence_refs": ["artifact://log/EVID-0101"],
+              "justification": "Structure mapping preserved required constraints."
+            }
+          ]
+        }
+      },
+      "response": {
+        "is_consistent": true,
+        "violations": []
+      }
+    }
+  ]
+}
