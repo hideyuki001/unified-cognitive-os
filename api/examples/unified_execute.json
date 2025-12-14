@@ -1,1 +1,44 @@
+{
+  "endpoint": "/v1/unified/execute",
+  "method": "POST",
+  "request": {
+    "context": {
+      "domain": "translation",
+      "task_goal": "Execute structure-first translation pipeline under governance (no content generation).",
+      "source_locale": "en-US",
+      "target_locale": "ja-JP",
+      "constraints": {
+        "no_content_generation": true,
+        "evidence_required": true,
+        "scope_fixed": true
+      },
+      "artifacts": {
+        "input_ref": "artifact://doc/REQ-0042",
+        "output_ref": "artifact://doc/OUT-0042"
+      }
+    },
+    "initial_difficulty": 0.7,
+    "pipeline": "translation_os_v1"
+  },
+  "response": {
+    "task_id": "UCO-2025-001",
+    "execution_status": "completed",
+    "evaluation_summary": {
+      "meta_decision": "YES",
+      "na_rate": 0.08,
+      "verdicts": {
+        "PromptFidelity": "YES",
+        "StructuralAccuracy": "YES",
+        "CreativeFit": "N/A",
+        "SafetyCompliance": "YES"
+      },
+      "feedback_signal": {
+        "success_rate": 0.86,
+        "risk_level": "low",
+        "recommended_action": "increase_difficulty"
+      }
+    },
+    "next_difficulty": 0.75
+  }
+}
 
